@@ -346,6 +346,29 @@ callAgainBtn.onclick = () => {
 
 closeCallEndedBtn.onclick = () => {
     callEndedOverlay.style.display = 'none';
+    
+    // Reset target peer ID
+    targetPeerId = null;
+    peerIdInput.value = '';
+    
+    // Reset remote name
+    remotePeerName = "Remote User";
+    updateRemoteUserName(remotePeerName);
+    
+    // Reset UI elements
+    toggleVideoPlaceholder(true);
+    showCallControls(false);
+    showMessageSystem(false);
+    
+    // Make sure call state is set to idle
+    setCallState("idle");
+    
+    // Stop and release local camera access
+    if (localStream) {
+        localStream.getTracks().forEach(track => track.stop());
+        localStream = null;
+        localVideo.srcObject = null;
+    }
 };
 
 // Call control handlers

@@ -156,6 +156,8 @@ button {
 button.secondary {
     background: #6c757d;
     color: white;
+    width: 100%;
+    margin-top: 10px;
 }
 
 button.secondary:hover {
@@ -571,7 +573,28 @@ video {
     display: flex;
     justify-content: center;
     gap: 15px;
-    margin-top: 20px;
+    width: 100%;
+}
+
+/* Make call action buttons equal width */
+.call-actions button {
+    flex: 1;
+    min-width: 120px;
+    padding: 10px 15px;
+}
+
+.ended-container .call-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+}
+
+/* Make Call Again and Close buttons equal width */
+.ended-container .call-actions button {
+    flex: 1;
+    min-width: 120px;
+    max-width: 160px;
 }
 
 /* Responsive design */
