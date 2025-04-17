@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure VoIP App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <h2>Secure VoIP</h2>
+
+        <!-- Auth forms -->
+        <div id="authForms">
+            <div id="loginForm">
+                <h3>Login</h3>
+                <div class="form-group">
+                    <div class="input-with-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="loginEmail" placeholder="Email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="loginPassword" placeholder="Password">
+                    </div>
+                </div>
+                <button id="loginBtn" class="primary-btn">Login</button>
+                <p>Don't have an account? <a href="#" id="showRegisterBtn">Register</a></p>
+            </div>
+
+            <div id="registerForm" style="display: none;">
+                <h3>Register</h3>
+                <div class="form-group">
+                    <div class="input-with-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="registerName" placeholder="Name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-with-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="registerEmail" placeholder="Email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="registerPassword" placeholder="Password">
+                    </div>
+                </div>
+                <button id="registerBtn" class="primary-btn">Register</button>
+                <p>Already have an account? <a href="#" id="showLoginBtn">Login</a></p>
+            </div>
+        </div>
+
+        <!-- Incoming Call Screen - Initially hidden -->
+        <div id="incomingCallScreen" style="display: none;">
+            <div class="call-notification">
+                <h3>Incoming Call</h3>
+                <div class="call-status">Ringing...</div>
+                <p>Call from: <span id="callerID"></span></p>
+                <div class="call-actions">
+                    <button id="acceptCall" class="accept"><i class="fas fa-phone"></i> Accept</button>
+                    <button id="rejectCall" class="reject"><i class="fas fa-phone-slash"></i> Reject</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call Status Overlay -->
+        <div id="callStatusOverlay" style="display: none;">
+            <div class="status-container">
+                <div class="status-indicator">
+                    <div class="spinner"></div>
+                    <div id="callStatusText">Connecting...</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Call Ended Overlay -->
+        <div id="callEndedOverlay" style="display: none;">
+            <div class="ended-container">
+                <h3><i class="fas fa-phone-slash"></i> Call Disconnected</h3>
+                <p>Your call with <span id="endedCallName"></span> has ended.</p>
+                <div class="call-actions">
+                    <button id="callAgainBtn" class="primary"><i class="fas fa-phone"></i> Call Again</button>
+                    <button id="closeCallEndedBtn" class="secondary"><i class="fas fa-times"></i> Close</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call UI - Initially hidden -->
+        <div id="callUI" style="display: none;" class="call-ui-container">
+            <div class="call-header">
+                <div class="search-call-section">
+                    <div class="input-with-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="peerId" placeholder="Enter peer ID to call">
+                    </div>
+                    <button id="startCall" class="call-btn"><i class="fas fa-phone"></i> Call</button>
+                </div>
+                <button id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+
+            <div class="call-container">
+                <div class="video-container">
+                    <div class="video-wrapper">
+                        <video id="localVideo" autoplay muted></video>
+                        <div class="video-label">You</div>
+                        <div class="connection-status" id="localStatus"></div>
+                    </div>
+                    <div class="video-wrapper">
+                        <video id="remoteVideo" autoplay></video>
+                        
+                        <!-- Video placeholder - shown when waiting for remote video -->
+                        <div id="remoteVideoPlaceholder" class="video-placeholder">
+                            <div class="avatar-circle">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div id="remoteUserName" class="placeholder-name">Remote User</div>
+                        </div>
+                        
+                        <div class="connection-status" id="remoteStatus"></div>
+                    </div>
+                </div>
+
+                <div id="callControls" style="display: none;">
+                    <button id="muteAudio" class="control-btn"><i class="fas fa-microphone"></i> Mute Audio</button>
+                    <button id="muteVideo" class="control-btn"><i class="fas fa-video"></i> Mute Video</button>
+                    <button id="endCall" class="control-btn end-call"><i class="fas fa-phone-slash"></i> End Call</button>
+                </div>
+
+                <!-- Message System -->
+                <div id="messageSystem" style="display: none;">
+                    <h4><i class="fas fa-comment"></i> Chat</h4>
+                    <div id="messageContainer"></div>
+                    <div class="message-input">
+                        <input type="text" id="messageInput" placeholder="Type a message...">
+                        <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
