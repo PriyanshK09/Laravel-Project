@@ -198,6 +198,9 @@ button.reject:hover {
     padding: 20px;
     background: var(--light-bg);
     border-bottom: 1px solid var(--border-color);
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .search-call-section {
@@ -628,4 +631,77 @@ video {
 @keyframes slideUp {
     from { transform: translateY(20px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
+}
+
+/* Add CSS for encryption settings */
+.encryption-settings {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+    padding: 5px 10px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.encryption-settings label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+}
+
+.encryption-settings select {
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    background-color: white;
+}
+
+.encryption-settings .btn-icon {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.encryption-settings .btn-icon:hover {
+    background-color: #e0e0e0;
+}
+
+.encryption-settings .status-indicator {
+    font-size: 14px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.encryption-settings .status-indicator.secure {
+    background-color: #e6f7e6;
+    color: #2e7d32;
+}
+
+.encryption-settings .status-indicator.insecure {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+/* Animation for refresh button */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.refreshing {
+    animation: spin 1s linear infinite;
 }

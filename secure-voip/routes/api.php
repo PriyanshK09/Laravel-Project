@@ -3,6 +3,8 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KeyExchangeController;
 use App\Http\Controllers\SignalController;
+use App\Http\Controllers\VoIPEncryptionController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Auth routes - removed leading slashes
@@ -21,4 +23,10 @@ Route::middleware('auth:api')->group(function () {
     // Signal routes
     Route::post('signal/send', [SignalController::class, 'sendSignal']);
     Route::get('signal/receive', [SignalController::class, 'receiveSignal']);
+    
+    // VoIP Encryption Routes
+    Route::post('/encryption/generate', [VoIPEncryptionController::class, 'generateKeys']);
+    Route::post('/encryption/exchange', [VoIPEncryptionController::class, 'exchangeKeys']);
+    Route::post('/encryption/store-aes-key', [VoIPEncryptionController::class, 'storeEncryptedAESKey']);
+    Route::get('/encryption/status', [VoIPEncryptionController::class, 'getEncryptionStatus']);
 });

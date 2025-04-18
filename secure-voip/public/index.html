@@ -101,6 +101,23 @@
                     </div>
                     <button id="startCall" class="call-btn"><i class="fas fa-phone"></i> Call</button>
                 </div>
+                
+                <!-- Encryption Method Selection -->
+                <div class="encryption-settings">
+                    <label>Encryption:</label>
+                    <select id="encryptionMethod">
+                        <option value="aes">Symmetric (AES)</option>
+                        <option value="rsa">Asymmetric (RSA)</option>
+                        <option value="none">None</option>
+                    </select>
+                    <button id="refreshEncryption" class="btn-icon" title="Refresh encryption keys">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <span id="encryptionStatus" class="status-indicator secure">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                </div>
+                
                 <button id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
             </div>
 

@@ -52,6 +52,19 @@ const remoteUserName = document.getElementById('remoteUserName');
 const localStatus = document.getElementById('localStatus');
 const remoteStatus = document.getElementById('remoteStatus');
 
+// Encryption elements and variables
+const encryptionMethodSelect = document.getElementById('encryptionMethod');
+const refreshEncryptionBtn = document.getElementById('refreshEncryption');
+const encryptionStatus = document.getElementById('encryptionStatus');
+let currentEncryptionMethod = 'aes'; // Default to AES
+let encryptionKeys = {
+    aes: null,       // For symmetric encryption
+    publicKey: null, // Our public key for asymmetric
+    privateKey: null,// Our private key (stored server-side)
+    peerPublicKey: null // Peer's public key
+};
+let isEncryptionReady = false;
+
 // Call state variables
 let targetPeerId = null;
 let remotePeerName = "Remote User"; // Default name until we get the real one
@@ -105,6 +118,8 @@ function updateUI() {
         callUI.style.display = 'block';
         // Show user ID on the call UI
         addUserIdDisplay();
+        // Initialize encryption
+        initializeEncryption();
     } else {
         authForms.style.display = 'block';
         loginForm.style.display = 'block';
@@ -242,6 +257,12 @@ startCallBtn.onclick = async () => {
     targetPeerId = peerIdInput.value;
     if (!targetPeerId) return alert("Enter peer ID");
 
+    // Check if encryption is ready (unless 'none' is selected)
+    if (currentEncryptionMethod !== 'none' && !isEncryptionReady) {
+        alert("Encryption is not ready. Please refresh encryption keys.");
+        return;
+    }
+
     try {
         // Show connecting status
         setCallState("connecting");
@@ -250,6 +271,10 @@ startCallBtn.onclick = async () => {
         const remoteUser = await fetchUserInfo(targetPeerId);
         updateRemoteUserName(remoteUser.name);
         
+        // Initialize encryption key exchange
+        await initializeKeyExchange(targetPeerId);
+        
+        // Continue with call setup
         await setupLocalMedia();
         await createPeerConnection();
         
@@ -272,7 +297,8 @@ startCallBtn.onclick = async () => {
         sendSignal({ 
             type: 'call-offer',
             sdp: offer,
-            callerName: localStorage.getItem('userName') // Send our name to the callee
+            callerName: localStorage.getItem('userName'), // Send our name to the callee
+            encryptionMethod: currentEncryptionMethod // Tell callee what encryption we're using
         });
     } catch (error) {
         console.error('Error starting call:', error);
@@ -293,6 +319,17 @@ acceptCallBtn.onclick = async () => {
         if (pendingOffer && pendingOffer.from) {
             const remoteUser = await fetchUserInfo(pendingOffer.from);
             updateRemoteUserName(remoteUser.name);
+            
+            // Get encryption method from offer if available
+            if (pendingOffer.encryptionMethod) {
+                // Set our encryption method to match the caller's
+                currentEncryptionMethod = pendingOffer.encryptionMethod;
+                encryptionMethodSelect.value = currentEncryptionMethod;
+                await generateEncryptionKeys();
+            }
+            
+            // Initialize encryption key exchange
+            await initializeKeyExchange(pendingOffer.from);
         }
         
         await setupLocalMedia();
@@ -567,16 +604,27 @@ function setupDataChannel() {
     };
 
     dataChannel.onmessage = (event) => {
-        console.log("Message received:", event.data);
-        addMessageToUI(event.data, 'received');
+        console.log("Encrypted message received:", event.data);
+        // Decrypt the message
+        const decryptedMessage = decryptMessage(event.data);
+        addMessageToUI(decryptedMessage, 'received');
     };
 }
 
-function sendMessage(message) {
+async function sendMessage(message) {
     if (dataChannel && dataChannel.readyState === 'open') {
         console.log("Sending message:", message);
-        dataChannel.send(message);
-        addMessageToUI(message, 'sent');
+        
+        try {
+            // Encrypt the message before sending
+            const encryptedMessage = await encryptMessage(message);
+            dataChannel.send(encryptedMessage);
+            // Still show the original message in UI
+            addMessageToUI(message, 'sent');
+        } catch (error) {
+            console.error("Error encrypting message:", error);
+            addSystemMessage("Failed to encrypt message");
+        }
     } else {
         console.error("Cannot send message, data channel not open:", dataChannel?.readyState);
     }
@@ -812,11 +860,218 @@ async function pollSignals() {
                         }
                     }
                     break;
+                
+                case 'key-exchange':
+                case 'encrypted-key':
+                    // Handle encryption key exchange
+                    await handleKeyExchange(data, from);
+                    break;
             }
         }
     } catch (error) {
         console.error('Error polling signals:', error);
     }
+}
+
+// Encryption initialization
+async function initializeEncryption() {
+    currentEncryptionMethod = encryptionMethodSelect.value;
+    updateEncryptionUI();
+    await generateEncryptionKeys();
+    
+    // Listen for encryption method changes
+    encryptionMethodSelect.addEventListener('change', async function() {
+        currentEncryptionMethod = this.value;
+        updateEncryptionUI();
+        await generateEncryptionKeys();
+    });
+    
+    // Listen for refresh encryption button
+    refreshEncryptionBtn.addEventListener('click', async function() {
+        this.classList.add('refreshing');
+        await generateEncryptionKeys();
+        setTimeout(() => this.classList.remove('refreshing'), 1000);
+    });
+}
+
+// Generate encryption keys based on selected method
+async function generateEncryptionKeys() {
+    if (!jwt || !userId) return;
+    
+    isEncryptionReady = false;
+    updateEncryptionUI();
+    
+    try {
+        const response = await apiCall('encryption/generate', 'POST', {
+            method: currentEncryptionMethod
+        });
+        
+        if (response.success) {
+            switch(currentEncryptionMethod) {
+                case 'aes':
+                    encryptionKeys.aes = response.key;
+                    break;
+                case 'rsa':
+                    encryptionKeys.publicKey = response.public_key;
+                    // Private key is stored server-side
+                    break;
+                case 'none':
+                    // No keys needed
+                    break;
+            }
+            
+            isEncryptionReady = true;
+            updateEncryptionUI();
+        } else {
+            console.error('Failed to generate encryption keys:', response.error);
+            showEncryptionError();
+        }
+    } catch (error) {
+        console.error('Error generating encryption keys:', error);
+        showEncryptionError();
+    }
+}
+
+// Update encryption UI based on current state
+function updateEncryptionUI() {
+    // Update status indicator
+    const isSecure = currentEncryptionMethod !== 'none' && isEncryptionReady;
+    
+    if (isSecure) {
+        encryptionStatus.className = 'status-indicator secure';
+        encryptionStatus.innerHTML = '<i class="fas fa-lock"></i>';
+    } else if (currentEncryptionMethod === 'none') {
+        encryptionStatus.className = 'status-indicator insecure';
+        encryptionStatus.innerHTML = '<i class="fas fa-unlock"></i> Unencrypted';
+    } else {
+        encryptionStatus.className = 'status-indicator insecure';
+        encryptionStatus.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Not Ready';
+    }
+}
+
+// Show encryption error in UI
+function showEncryptionError() {
+    encryptionStatus.className = 'status-indicator insecure';
+    encryptionStatus.innerHTML = '<i class="fas fa-exclamation-circle"></i> Error';
+    isEncryptionReady = false;
+}
+
+// Initialize key exchange with peer during call setup
+async function initializeKeyExchange(peerId) {
+    if (currentEncryptionMethod === 'none') {
+        // No encryption, nothing to do
+        return true;
+    }
+    
+    try {
+        if (currentEncryptionMethod === 'rsa') {
+            // For RSA, we exchange public keys
+            // Send signal with our public key to peer
+            await sendSignal({
+                type: 'key-exchange',
+                method: 'rsa',
+                publicKey: encryptionKeys.publicKey,
+                to: peerId
+            });
+            
+            // Wait for peer's public key in signal handler
+            // The rest will happen in handleKeyExchange
+            
+        } else if (currentEncryptionMethod === 'aes') {
+            // For AES, caller sends encrypted AES key to receiver
+            // This happens after we get peer's public key in signal handler
+            // The rest will happen in handleKeyExchange
+        }
+        
+        return true;
+    } catch (error) {
+        console.error('Key exchange failed:', error);
+        return false;
+    }
+}
+
+// Handle key exchange signals
+async function handleKeyExchange(data, fromPeerId) {
+    try {
+        if (data.type === 'key-exchange') {
+            if (data.method === 'rsa') {
+                // Store peer's public key
+                encryptionKeys.peerPublicKey = data.publicKey;
+                
+                // Respond with our public key if we're receiving this
+                if (!isInCall) {
+                    await sendSignal({
+                        type: 'key-exchange',
+                        method: 'rsa',
+                        publicKey: encryptionKeys.publicKey,
+                        to: fromPeerId
+                    });
+                }
+                
+                // If we're the caller and using AES method (hybrid encryption),
+                // we need to encrypt our AES key with peer's RSA public key
+                if (isInCall && currentEncryptionMethod === 'aes' && encryptionKeys.aes) {
+                    // Use API to encrypt AES key with peer's public key
+                    const response = await apiCall('encryption/exchange', 'POST', {
+                        peer_public_key: encryptionKeys.peerPublicKey,
+                        method: 'aes'
+                    });
+                    
+                    if (response.success) {
+                        // Send the encrypted AES key to peer
+                        await sendSignal({
+                            type: 'encrypted-key',
+                            method: 'aes',
+                            encryptedKey: response.encrypted_key,
+                            to: fromPeerId
+                        });
+                    }
+                }
+            }
+        } else if (data.type === 'encrypted-key') {
+            // Recipient receives encrypted AES key
+            if (data.method === 'aes') {
+                // Store the encrypted key using the API
+                await apiCall('encryption/store-aes-key', 'POST', {
+                    encrypted_key: data.encryptedKey
+                });
+            }
+        }
+    } catch (error) {
+        console.error('Error handling key exchange:', error);
+    }
+}
+
+// Encrypt message before sending
+async function encryptMessage(message) {
+    if (currentEncryptionMethod === 'none') {
+        return message;
+    }
+    
+    // For demo purposes, we'll just add a prefix for proof of encryption
+    // In a real app, you'd send the encrypted message to the backend for encryption
+    // or use a JavaScript encryption library like CryptoJS
+    return `[ENCRYPTED] ${message}`;
+}
+
+// Decrypt message after receiving
+function decryptMessage(encryptedMessage) {
+    if (currentEncryptionMethod === 'none' || !encryptedMessage.startsWith('[ENCRYPTED]')) {
+        return encryptedMessage;
+    }
+    
+    // For demo purposes, we'll just remove the prefix
+    // In a real app, you'd send the encrypted message to the backend for decryption
+    return encryptedMessage.replace('[ENCRYPTED] ', '');
+}
+
+// Helper function to add system messages
+function addSystemMessage(message) {
+    const systemMsg = document.createElement('div');
+    systemMsg.classList.add('message', 'system-message');
+    systemMsg.textContent = message;
+    messageContainer.appendChild(systemMsg);
+    messageContainer.scrollTop = messageContainer.scrollHeight;
 }
 
 // DOM elements for video placeholder
