@@ -6,18 +6,46 @@
     <title>Secure VoIP App</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-container">
-        <h2>Secure VoIP</h2>
+    <div class="matrix-background">
+        <div class="matrix-rain" id="matrix-rain"></div>
+    </div>
+    
+    <header class="app-header">
+        <div class="logo">
+            <i class="fas fa-shield-alt"></i>
+            <h1>SECURE VOIP</h1>
+        </div>
+        <div class="status-bar">
+            <div class="status-item">
+                <i class="fas fa-signal"></i>
+                <span>ONLINE</span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-lock"></i>
+                <span>ENCRYPTED</span>
+            </div>
+        </div>
+    </header>
 
+    <div class="app-container">
         <!-- Auth forms -->
         <div id="authForms">
+            <div class="terminal-header">
+                <div class="terminal-buttons">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="terminal-title">AUTHENTICATION REQUIRED</div>
+            </div>
+            
             <div id="loginForm">
-                <h3>Login</h3>
+                <h3><i class="fas fa-terminal"></i> Login</h3>
                 <div class="form-group">
                     <div class="input-with-icon">
                         <i class="fas fa-envelope"></i>
@@ -30,12 +58,15 @@
                         <input type="password" id="loginPassword" placeholder="Password">
                     </div>
                 </div>
-                <button id="loginBtn" class="primary-btn">Login</button>
+                <button id="loginBtn" class="primary-btn">
+                    <span class="btn-text">Login</span>
+                    <span class="btn-icon"><i class="fas fa-arrow-right"></i></span>
+                </button>
                 <p>Don't have an account? <a href="#" id="showRegisterBtn">Register</a></p>
             </div>
 
             <div id="registerForm" style="display: none;">
-                <h3>Register</h3>
+                <h3><i class="fas fa-terminal"></i> Register</h3>
                 <div class="form-group">
                     <div class="input-with-icon">
                         <i class="fas fa-user"></i>
@@ -54,7 +85,10 @@
                         <input type="password" id="registerPassword" placeholder="Password">
                     </div>
                 </div>
-                <button id="registerBtn" class="primary-btn">Register</button>
+                <button id="registerBtn" class="primary-btn">
+                    <span class="btn-text">Register</span>
+                    <span class="btn-icon"><i class="fas fa-arrow-right"></i></span>
+                </button>
                 <p>Already have an account? <a href="#" id="showLoginBtn">Login</a></p>
             </div>
         </div>
@@ -62,12 +96,41 @@
         <!-- Incoming Call Screen - Initially hidden -->
         <div id="incomingCallScreen" style="display: none;">
             <div class="call-notification">
-                <h3>Incoming Call</h3>
-                <div class="call-status">Ringing...</div>
-                <p>Call from: <span id="callerID"></span></p>
+                <div class="terminal-header">
+                    <div class="terminal-buttons">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="terminal-title">INCOMING TRANSMISSION</div>
+                </div>
+                <div class="matrix-code-banner"></div>
+                <div class="caller-identity">
+                    <div class="caller-avatar">
+                        <i class="fas fa-user"></i>
+                        <div class="signal-rings">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                    <div class="caller-info">
+                        <div class="caller-label">INCOMING CALL</div>
+                        <div id="callerID" class="caller-id">USER.ID_<span class="blink-cursor">|</span></div>
+                        <div class="connection-type">ENCRYPTED CHANNEL</div>
+                    </div>
+                </div>
+                <div class="call-status">
+                    <div class="status-pulse"></div>
+                    <span>CONNECTION ATTEMPT</span>
+                </div>
                 <div class="call-actions">
-                    <button id="acceptCall" class="accept"><i class="fas fa-phone"></i> Accept</button>
-                    <button id="rejectCall" class="reject"><i class="fas fa-phone-slash"></i> Reject</button>
+                    <button id="acceptCall" class="accept">
+                        <i class="fas fa-phone"></i> ACCEPT
+                    </button>
+                    <button id="rejectCall" class="reject">
+                        <i class="fas fa-phone-slash"></i> REJECT
+                    </button>
                 </div>
             </div>
         </div>
@@ -75,9 +138,23 @@
         <!-- Call Status Overlay -->
         <div id="callStatusOverlay" style="display: none;">
             <div class="status-container">
-                <div class="status-indicator">
+                <div class="terminal-header">
+                    <div class="terminal-buttons">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="terminal-title">SYSTEM STATUS</div>
+                </div>
+                <div class="status-indicator-container">
                     <div class="spinner"></div>
                     <div id="callStatusText">Connecting...</div>
+                    <div class="matrix-code-display">
+                        <div class="code-line">Initializing secure channel...</div>
+                        <div class="code-line">Establishing encrypted connection...</div>
+                        <div class="code-line">Verifying peer identity...</div>
+                        <div class="code-line">Negotiating encryption keys...</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -85,24 +162,65 @@
         <!-- Call Ended Overlay -->
         <div id="callEndedOverlay" style="display: none;">
             <div class="ended-container">
-                <h3><i class="fas fa-phone-slash"></i> Call Disconnected</h3>
-                <p>Your call with <span id="endedCallName"></span> has ended.</p>
-                <div class="call-actions">
-                    <button id="callAgainBtn" class="primary"><i class="fas fa-phone"></i> Call Again</button>
-                    <button id="closeCallEndedBtn" class="secondary"><i class="fas fa-times"></i> Close</button>
+                <div class="terminal-header">
+                    <div class="terminal-buttons">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="terminal-title">TRANSMISSION TERMINATED</div>
+                </div>
+                <div class="ended-content">
+                    <div class="ended-icon">
+                        <i class="fas fa-phone-slash"></i>
+                    </div>
+                    <h3>Call Disconnected</h3>
+                    <div class="ended-details">
+                        <div class="detail-item">
+                            <span class="detail-label">USER:</span>
+                            <span id="endedCallName" class="highlight-text">Unknown</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">DURATION:</span>
+                            <span class="highlight-text">00:03:45</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">STATUS:</span>
+                            <span class="highlight-text">Terminated</span>
+                        </div>
+                    </div>
+                    <div class="call-actions">
+                        <button id="callAgainBtn" class="primary">
+                            <i class="fas fa-phone"></i> CALL AGAIN
+                        </button>
+                        <button id="closeCallEndedBtn" class="secondary">
+                            <i class="fas fa-times"></i> CLOSE
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Call UI - Initially hidden -->
         <div id="callUI" style="display: none;" class="call-ui-container">
+            <div class="terminal-header">
+                <div class="terminal-buttons">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="terminal-title">SECURE COMMUNICATION CHANNEL</div>
+            </div>
+            
             <div class="call-header">
                 <div class="search-call-section">
                     <div class="input-with-icon">
                         <i class="fas fa-user"></i>
                         <input type="text" id="peerId" placeholder="Enter peer ID to call">
                     </div>
-                    <button id="startCall" class="call-btn"><i class="fas fa-phone"></i> Call</button>
+                    <button id="startCall" class="call-btn">
+                        <i class="fas fa-phone"></i> Call
+                    </button>
                 </div>
                 
                 <!-- Encryption Method Selection -->
@@ -121,50 +239,220 @@
                     </span>
                 </div>
                 
-                <button id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                <button id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
             </div>
 
             <div class="call-container">
                 <div class="video-container">
                     <div class="video-wrapper">
-                        <video id="localVideo" autoplay muted></video>
-                        <div class="video-label">You</div>
-                        <div class="connection-status" id="localStatus"></div>
+                        <div class="video-frame">
+                            <div class="frame-corner top-left"></div>
+                            <div class="frame-corner top-right"></div>
+                            <div class="frame-corner bottom-left"></div>
+                            <div class="frame-corner bottom-right"></div>
+                            <video id="localVideo" autoplay muted></video>
+                            <div class="video-label">You</div>
+                            <div class="connection-status" id="localStatus"></div>
+                            <div class="video-overlay"></div>
+                            <div class="scan-line"></div>
+                        </div>
                     </div>
                     <div class="video-wrapper">
-                        <video id="remoteVideo" autoplay></video>
-                        
-                        <!-- Video placeholder - shown when waiting for remote video -->
-                        <div id="remoteVideoPlaceholder" class="video-placeholder">
-                            <div class="avatar-circle">
-                                <i class="fas fa-user"></i>
+                        <div class="video-frame">
+                            <div class="frame-corner top-left"></div>
+                            <div class="frame-corner top-right"></div>
+                            <div class="frame-corner bottom-left"></div>
+                            <div class="frame-corner bottom-right"></div>
+                            <video id="remoteVideo" autoplay></video>
+                            
+                            <!-- Video placeholder - shown when waiting for remote video -->
+                            <div id="remoteVideoPlaceholder" class="video-placeholder">
+                                <div class="avatar-circle">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div id="remoteUserName" class="placeholder-name">Remote User</div>
                             </div>
-                            <div id="remoteUserName" class="placeholder-name">Remote User</div>
+                            
+                            <div class="connection-status" id="remoteStatus"></div>
+                            <div class="video-overlay"></div>
+                            <div class="scan-line"></div>
                         </div>
-                        
-                        <div class="connection-status" id="remoteStatus"></div>
                     </div>
                 </div>
 
                 <div id="callControls" style="display: none;">
-                    <button id="muteAudio" class="control-btn"><i class="fas fa-microphone"></i> Mute Audio</button>
-                    <button id="muteVideo" class="control-btn"><i class="fas fa-video"></i> Mute Video</button>
-                    <button id="endCall" class="control-btn end-call"><i class="fas fa-phone-slash"></i> End Call</button>
+                    <button id="muteAudio" class="control-btn">
+                        <i class="fas fa-microphone"></i> Mute Audio
+                    </button>
+                    <button id="muteVideo" class="control-btn">
+                        <i class="fas fa-video"></i> Mute Video
+                    </button>
+                    <button id="endCall" class="control-btn end-call">
+                        <i class="fas fa-phone-slash"></i> End Call
+                    </button>
                 </div>
 
                 <!-- Message System -->
                 <div id="messageSystem" style="display: none;">
-                    <h4><i class="fas fa-comment"></i> Chat</h4>
+                    <div class="terminal-header message-header">
+                        <div class="terminal-buttons">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div class="terminal-title">ENCRYPTED CHAT</div>
+                        <div class="chat-status">
+                            <i class="fas fa-lock"></i>
+                            <span>END-TO-END ENCRYPTED</span>
+                        </div>
+                    </div>
                     <div id="messageContainer"></div>
                     <div class="message-input">
+                        <div class="input-prefix">&gt;</div>
                         <input type="text" id="messageInput" placeholder="Type a message...">
-                        <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+                        <button id="sendMessage">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <footer class="app-footer">
+        <div class="footer-content">
+            <div class="encryption-info">
+                <i class="fas fa-shield-alt"></i>
+                <span>End-to-End Encrypted</span>
+            </div>
+            <div class="footer-status">
+                <div class="status-dot"></div>
+                <span>System Online</span>
+            </div>
+        </div>
+    </footer>
+
     <script src="script.js"></script>
+    <script>
+        // Matrix rain animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.createElement('canvas');
+            const matrixRain = document.getElementById('matrix-rain');
+            matrixRain.appendChild(canvas);
+            
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const characters = "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン";
+            const fontSize = 14;
+            const columns = canvas.width / fontSize;
+            
+            const drops = [];
+            for (let i = 0; i < columns; i++) {
+                drops[i] = Math.floor(Math.random() * -100);
+            }
+            
+            function draw() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.fillStyle = '#00ff41';
+                ctx.font = fontSize + 'px monospace';
+                
+                for (let i = 0; i < drops.length; i++) {
+                    const text = characters.charAt(Math.floor(Math.random() * characters.length));
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    
+                    drops[i]++;
+                }
+            }
+            
+            setInterval(draw, 33);
+            
+            window.addEventListener('resize', function() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                const columns = canvas.width / fontSize;
+                drops.length = 0;
+                for (let i = 0; i < columns; i++) {
+                    drops[i] = Math.floor(Math.random() * -100);
+                }
+            });
+        });
+
+        // Sample function to add messages to the chat (for demonstration)
+        function addMessage(sender, content, isSent) {
+            const messageContainer = document.getElementById('messageContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isSent ? 'sent' : 'received'}`;
+            
+            const timestamp = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            messageDiv.innerHTML = `
+                <div class="message-header">
+                    <span class="message-sender">${sender}</span>
+                    <span class="message-time">${timestamp}</span>
+                </div>
+                <div class="message-content">${content}</div>
+                <div class="message-decoration"></div>
+            `;
+            
+            messageContainer.appendChild(messageDiv);
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+        }
+
+        // Example usage (you can remove this in production)
+        document.addEventListener('DOMContentLoaded', function() {
+            // For demonstration purposes only
+            setTimeout(() => {
+                if (document.getElementById('messageContainer')) {
+                    addMessage('SYSTEM', 'Secure channel established', false);
+                    addMessage('YOU', 'Hello, can you hear me?', true);
+                    addMessage('USER.5', 'Yes, connection is good. This channel is encrypted.', false);
+                    addMessage('YOU', 'Great! Let\'s discuss the project details.', true);
+                    addMessage('USER.5', 'I\'ve received the encrypted files. Decrypting now...', false);
+                }
+            }, 1000);
+            
+            // Connect the send button to add messages
+            const sendButton = document.getElementById('sendMessage');
+            const messageInput = document.getElementById('messageInput');
+            
+            if (sendButton && messageInput) {
+                sendButton.addEventListener('click', function() {
+                    const message = messageInput.value.trim();
+                    if (message) {
+                        addMessage('YOU', message, true);
+                        messageInput.value = '';
+                    }
+                });
+                
+                messageInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        const message = messageInput.value.trim();
+                        if (message) {
+                            addMessage('YOU', message, true);
+                            messageInput.value = '';
+                        }
+                    }
+                });
+            }
+            
+            // Show message system for demo
+            setTimeout(() => {
+                const messageSystem = document.getElementById('messageSystem');
+                if (messageSystem) {
+                    messageSystem.style.display = 'block';
+                }
+            }, 500);
+        });
+    </script>
 </body>
 </html>

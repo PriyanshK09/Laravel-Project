@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureVOIP - Military-Grade Encrypted Communications</title>
+    <link rel="stylesheet" href="landing.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lock-icon">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <span class="logo-text"><span class="green-text">SECURE</span>VOIP</span>
+            </div>
+            <nav class="main-nav">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#encryption" class="nav-link">Security</a>
+                <a href="#testimonials" class="nav-link">Testimonials</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </nav>
+            <button class="btn btn-primary">Sign Up</button>
+            <button class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="matrix-bg"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Secure Your <span class="green-text">Voice Communications</span> with Military-Grade Encryption</h1>
+                <p class="hero-subtitle">
+                    Our VoIP service uses advanced symmetric and asymmetric encryption to ensure your calls remain private and
+                    secure from end to end.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary btn-lg">
+                        Start Secure Calling
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                    <button class="btn btn-outline btn-lg">
+                        Learn More
+                    </button>
+                </div>
+            </div>
+
+            <div class="terminal">
+                <div class="terminal-header">
+                    <div class="terminal-buttons">
+                        <div class="terminal-button red"></div>
+                        <div class="terminal-button yellow"></div>
+                        <div class="terminal-button green"></div>
+                    </div>
+                    <div class="terminal-title">secure-voip-terminal</div>
+                </div>
+                <div class="terminal-body">
+                    <p class="terminal-line green-text">$ initiating_secure_connection</p>
+                    <p class="terminal-line">Generating 4096-bit RSA key pair...</p>
+                    <p class="terminal-line">Establishing secure tunnel...</p>
+                    <p class="terminal-line green-text">$ connection_secure</p>
+                    <p class="terminal-line white-text">Welcome to SecureVOIP. Your communications are now protected.</p>
+                    <div class="terminal-prompt">
+                        <span class="green-text">$</span>
+                        <span class="cursor"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Encryption Section -->
+    <section id="encryption" class="encryption">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Military-Grade <span class="green-text">Encryption</span></h2>
+                <p class="section-subtitle">
+                    We employ both symmetric and asymmetric encryption protocols to ensure your communications remain private
+                    and secure.
+                </p>
+            </div>
+
+            <div class="encryption-grid">
+                <div class="encryption-content">
+                    <h3 class="encryption-title green-text">Symmetric Encryption</h3>
+                    <p class="encryption-text">
+                        Symmetric encryption uses the same key for both encryption and decryption. We implement AES-256, the
+                        industry standard used by governments and military organizations worldwide to secure sensitive
+                        communications.
+                    </p>
+                    <ul class="encryption-list">
+                        <li>
+                            <span class="list-bullet green-text">•</span>
+                            <span>Faster encryption/decryption speeds for real-time communication</span>
+                        </li>
+                        <li>
+                            <span class="list-bullet green-text">•</span>
+                            <span>Session keys are regenerated for each call for maximum security</span>
+                        </li>
+                        <li>
+                            <span class="list-bullet green-text">•</span>
+                            <span>256-bit keys provide mathematical protection against brute force attacks</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="encryption-diagram">
+                    <canvas id="symmetric-diagram" width="500" height="300"></canvas>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="encryption-grid reverse">
+                <div class="encryption-diagram">
+                    <canvas id="asymmetric-diagram" width="500" height="300"></canvas>
+                </div>
+                <div class="encryption-content">
+                    <h3 class="encryption-title green-text">Asymmetric Encryption</h3>
+                    <p class="encryption-text">
+                        Asymmetric encryption uses a pair of keys: public and private. We implement RSA-4096 for key exchange,
+                        ensuring that even if a third party intercepts your communication, they cannot decrypt it without the
+                        private key.
+                    </p>
+                    <ul class="encryption-list">
+                        <li>
+                            <span class="list-bullet green-text">•</span>
+                            <span>Perfect forward secrecy ensures past communications remain secure</span>
+                        </li>
+                        <li>
+                            <span class="list-bullet green-text">•</span>
+                            <span>4096-bit key length provides future-proof security</span>
+                        </li>
+                        <li>
+                            <span class="list-bullet green-text">•</span>
+                            <span>Used for secure key exchange to establish symmetric encryption</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Advanced <span class="green-text">Features</span></h2>
+                <p class="section-subtitle">
+                    Our VoIP service combines security with powerful communication features to enhance your business
+                    operations.
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Crystal Clear HD Audio</h3>
+                    <p class="feature-description">Experience unparalleled call quality with our advanced audio codecs and adaptive bitrate technology.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">End-to-End Encryption</h3>
+                    <p class="feature-description">Every call is protected with end-to-end encryption, ensuring your conversations remain private.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Secure Conference Calls</h3>
+                    <p class="feature-description">Host encrypted conference calls with up to 50 participants without compromising security.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Encrypted Messaging</h3>
+                    <p class="feature-description">Send secure text messages and files with the same level of encryption as your voice calls.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Secure Call Recording</h3>
+                    <p class="feature-description">Record calls with encrypted storage that only authorized users can access.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Zero Knowledge Architecture</h3>
+                    <p class="feature-description">We cannot access your communications - only you hold the keys to your data.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Trusted by <span class="green-text">Security Professionals</span></h2>
+                <p class="section-subtitle">
+                    See what cybersecurity experts and business leaders say about our secure VoIP solution.
+                </p>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">
+                            <img src="https://via.placeholder.com/80" alt="Sarah Johnson">
+                        </div>
+                        <div class="testimonial-author">
+                            <h4 class="testimonial-name">Sarah Johnson</h4>
+                            <p class="testimonial-role green-text">CISO, TechSecure Inc.</p>
+                        </div>
+                    </div>
+                    <p class="testimonial-quote">
+                        "After extensive security testing, we deployed SecureVOIP across our entire organization. The encryption implementation is flawless."
+                    </p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">
+                            <img src="https://via.placeholder.com/80" alt="Michael Chen">
+                        </div>
+                        <div class="testimonial-author">
+                            <h4 class="testimonial-name">Michael Chen</h4>
+                            <p class="testimonial-role green-text">Cybersecurity Consultant</p>
+                        </div>
+                    </div>
+                    <p class="testimonial-quote">
+                        "I've analyzed dozens of VoIP solutions, and SecureVOIP stands out with its zero-knowledge architecture and perfect forward secrecy."
+                    </p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">
+                            <img src="https://via.placeholder.com/80" alt="Elena Rodriguez">
+                        </div>
+                        <div class="testimonial-author">
+                            <h4 class="testimonial-name">Elena Rodriguez</h4>
+                            <p class="testimonial-role green-text">Director of IT, Global Finance Corp</p>
+                        </div>
+                    </div>
+                    <p class="testimonial-quote">
+                        "Our compliance team was impressed by the encryption standards. SecureVOIP meets all our regulatory requirements for sensitive client communications."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="contact" class="cta">
+        <div class="matrix-bg"></div>
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="section-title">Ready to <span class="green-text">Secure Your Communications?</span></h2>
+                <p class="section-subtitle">
+                    Join thousands of security-conscious organizations that trust SecureVOIP for their sensitive
+                    communications.
+                </p>
+                <div class="contact-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" id="name" class="form-input" placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" id="email" class="form-input" placeholder="john@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="company" class="form-label">Company</label>
+                            <input type="text" id="company" class="form-input" placeholder="Your Company">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <input type="tel" id="phone" class="form-input" placeholder="+1 (555) 123-4567">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-full btn-lg">
+                        Get Started with Secure VoIP
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                    <p class="form-disclaimer">
+                        By signing up, you agree to our Terms of Service and Privacy Policy. Your data will be encrypted and
+                        stored securely.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo footer-logo">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lock-icon">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <span class="logo-text"><span class="green-text">SECURE</span>VOIP</span>
+                    </div>
+                    <p class="footer-text">
+                        Military-grade encryption for your voice communications. Trusted by security professionals worldwide.
+                    </p>
+                </div>
+                <div class="footer-col">
+                    <h3 class="footer-heading">Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">About Us</a></li>
+                        <li><a href="#" class="footer-link">Careers</a></li>
+                        <li><a href="#" class="footer-link">Blog</a></li>
+                        <li><a href="#" class="footer-link">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3 class="footer-heading">Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Documentation</a></li>
+                        <li><a href="#" class="footer-link">Security Whitepaper</a></li>
+                        <li><a href="#" class="footer-link">API Reference</a></li>
+                        <li><a href="#" class="footer-link">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3 class="footer-heading">Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Privacy Policy</a></li>
+                        <li><a href="#" class="footer-link">Terms of Service</a></li>
+                        <li><a href="#" class="footer-link">GDPR Compliance</a></li>
+                        <li><a href="#" class="footer-link">Security Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div class="footer-bottom">
+                <p class="copyright">© <span id="current-year"></span> SecureVOIP. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.51 0 10-4.48 10-10S17.51 2 12 2zm6.605 4.61a8.502 8.502 0 011.93 5.314c-.281-.054-3.101-.629-5.943-.271-.065-.141-.12-.293-.184-.445a25.416 25.416 0 00-.564-1.236c3.145-1.28 4.577-3.124 4.761-3.362zM12 3.475c2.17 0 4.154.813 5.662 2.148-.152.216-1.443 1.941-4.48 3.08-1.399-2.57-2.95-4.675-3.189-5A8.687 8.687 0 0112 3.475zm-3.633.803a53.896 53.896 0 013.167 4.935c-3.992 1.063-7.517 1.04-7.896 1.04a8.581 8.581 0 014.729-5.975zM3.453 12.01v-.26c.37.01 4.512.065 8.775-1.215.25.477.477.965.694 1.453-.109.033-.228.065-.336.098-4.404 1.42-6.747 5.303-6.942 5.629a8.522 8.522 0 01-2.19-5.705zM12 20.547a8.482 8.482 0 01-5.239-1.8c.152-.315 1.888-3.656 6.703-5.337.022-.01.033-.01.054-.022a35.318 35.318 0 011.823 6.475 8.4 8.4 0 01-3.341.684zm4.761-1.465c-.086-.52-.542-3.015-1.659-6.084 2.679-.423 5.022.271 5.314.369a8.468 8.468 0 01-3.655 5.715z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="landing.js"></script>
+</body>
+</html>
